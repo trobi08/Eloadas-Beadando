@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 API-k</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    #dragItem {
+      width: 100px;
+      height: 100px;
+      background-color: #4CAF50;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      margin-bottom: 10px;
+    }
+
+    #dropZone {
+      width: 200px;
+      height: 120px;
+      border: 2px dashed #aaa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #dropZone.drag-over {
+      background-color: #e0e0e0;
+      border-color: #333;
+    }
+
+    canvas {
+      border: 1px solid #000;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Web-programozás-1 Előadás Házi feladat</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Kezdőlap</a></li>
+      <li><a href="tabla.html">Táblázat</a></li>
+      <li class="active"><a href="html5.html">HTML5 API-k</a></li>
+      <li><a href="chart.html">ChartJS</a></li>
+      <li><a href="ajax.html">AJAX</a></li>
+      <li><a href="oojs.html">OOJS</a></li>
+    </ul>
+  </nav>
+
+  <aside>
+    <p>Ez itt az oldalsáv – akár hirdetés vagy extra infó is lehet.</p>
+  </aside>
+
+  <div id="content">
+    <h2>HTML5 API-k</h2>
+
+    <!-- Web Storage -->
+    <section>
+      <h3>Web Storage példa</h3>
+      <input type="text" id="storageInput" placeholder="Írj be valamit...">
+      <button onclick="saveToStorage()">Mentés</button>
+      <button onclick="loadFromStorage()">Betöltés</button>
+      <p id="storageOutput"></p>
+    </section>
+
+    <!-- Web Worker -->
+    <section>
+      <h3>Web Worker példa</h3>
+      <button onclick="startWorker()">Számítás indítása</button>
+      <p id="workerOutput"></p>
+    </section>
+
+    <!-- Geolocation -->
+    <section>
+      <h3>Geolocation API példa</h3>
+      <button onclick="getLocation()">Helymeghatározás</button>
+      <p id="locationOutput"></p>
+    </section>
+
+    <!-- Drag and Drop -->
+    <section>
+      <h3>Drag and Drop API példa</h3>
+      <div id="dragItem" draggable="true">Húzz ide</div>
+      <div id="dropZone">Ide húzd</div>
+      <p id="dropResult"></p>
+    </section>
+
+    <!-- Canvas -->
+    <section>
+      <h3>Canvas API példa</h3>
+      <button onclick="drawCircle()">Kör rajzolása</button>
+      <canvas id="myCanvas" width="200" height="200"></canvas>
+    </section>
+
+    <!-- SVG -->
+    <section>
+      <h3>SVG példa</h3>
+      <svg width="200" height="200">
+        <circle cx="100" cy="100" r="80" stroke="blue" stroke-width="4" fill="lightblue" />
+        <text x="100" y="105" font-size="20" text-anchor="middle" fill="darkblue">SVG</text>
+      </svg>
+    </section>
+
+    <!-- Server-Sent Events -->
+    <section>
+      <h3>Server-Sent Events (SSE) példa</h3>
+      <button onclick="startSSE()">Indítás</button>
+      <div id="sseBox"></div>
+    </section>
+  </div>
+
+  <footer>
+    <p>Készítette: Simon Péter (ZE4F8M) és Tarr Róbert (RO30XN)</p>
+  </footer>
+
+  <script>
+    // Web Storage
+    function saveToStorage() {
+      const value = document.getElementById("storageInput").value;
+      localStorage.setItem("myText", value);
+      alert("Elmentve!");
+    }
+
+    function loadFromStorage() {
+      const value = localStorage.getItem("myText");
+      document.getElementById("storageOutput").textContent = "Mentett érték: " + value;
+    }
+
+    // Web Worker
+    function startWorker() {
+      const worker = new Worker("js/worker.js");
+      worker.onmessage = function(e) {
+        document.getElementById("workerOutput").textContent = e.data;
+      };
+    }
+
+    // Geolocation
+    function getLocation() {
+      const output = document.getElementById("locationOutput");
+      if (!navigator.geolocation) {
+        output.textContent = "A böngésződ nem támogatja a geolocation API-t.";
+        return;
+      }
+      output.textContent = "Helyzet lekérése folyamatban...";
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude.toFixed(5);
+          const lon = position.coords.longitude.toFixed(5);
+          output.textContent = `Szélesség: ${lat}, Hosszúság: ${lon}`;
+        },
+        (error) => {
+          output.textContent = "Nem sikerült lekérni a helyzetet: " + error.message;
+        }
+      );
+    }
+
+    // Drag and Drop
+    const dragItem = document.getElementById("dragItem");
+    const dropZone = document.getElementById("dropZone");
+    const dropResult = document.getElementById("dropResult");
+
+    dragItem.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData("text/plain", "dragItem");
+    });
+
+    dropZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropZone.classList.add("drag-over");
+    });
+
+    dropZone.addEventListener("dragleave", () => {
+      dropZone.classList.remove("drag-over");
+    });
+
+    dropZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropZone.classList.remove("drag-over");
+      const data = e.dataTransfer.getData("text/plain");
+      if (data === "dragItem") {
+        dropResult.textContent = "Elem áthúzva!";
+      }
+    });
+
+    // Canvas
+    function drawCircle() {
+      const canvas = document.getElementById("myCanvas");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.arc(100, 100, 80, 0, 2 * Math.PI);
+      ctx.fillStyle = "lightcoral";
+      ctx.fill();
+      ctx.strokeStyle = "black";
+      ctx.lineWidth = 4;
+      ctx.stroke();
+    }
+
+    // Server-Sent Events (szimulált)
+    function startSSE() {
+      const box = document.getElementById("sseBox");
+      box.innerHTML = "Adatok érkeznek...";
+
+      let counter = 0;
+      const interval = setInterval(() => {
+        const p = document.createElement("p");
+        const now = new Date().toLocaleTimeString();
+        p.textContent = `Szimulált adat érkezett: ${now} (szám: ${++counter})`;
+        box.appendChild(p);
+
+        if (counter >= 5) {
+          clearInterval(interval);
+          box.appendChild(document.createTextNode("Szimuláció vége."));
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

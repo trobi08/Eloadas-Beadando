@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>Táblázat</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Web-programozás-1 Előadás Házi feladat</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Kezdőlap</a></li>
+      <li class="active"><a href="tabla.html">Táblázat</a></li>
+      <li><a href="html5.html">HTML5 API-k</a></li>
+      <li><a href="chart.html">ChartJS</a></li>
+      <li><a href="ajax.html">AJAX</a></li>
+      <li><a href="oojs.html">OOJS</a></li>
+    </ul>
+  </nav>
+
+  <aside>
+    <p>Ez itt az oldalsáv – akár hirdetés vagy extra infó is lehet.</p>
+  </aside>
+
+  <div id="content">
+  <h2>Táblázat (CRUD funkciókkal)</h2>
+
+  <form id="form">
+    <input type="text" id="name" placeholder="Név" required minlength="2" maxlength="30">
+    <input type="number" id="age" placeholder="Kor" required min="1" max="120">
+    <input type="text" id="city" placeholder="Város" required minlength="2" maxlength="30">
+    <input type="text" id="email" placeholder="Email" required pattern="[^@]+@[^@]+\.[a-zA-Z]{2,}">
+    <button type="submit">Hozzáadás</button>
+  </form>
+
+  <input type="text" id="searchInput" placeholder="Keresés...">
+
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <th data-column="name">Név</th>
+        <th data-column="age">Kor</th>
+        <th data-column="city">Város</th>
+        <th data-column="email">Email</th>
+        <th>Műveletek</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- ide kerülnek a sorok JS-ből -->
+    </tbody>
+  </table>
+</div>
+
+  <footer>
+    <p>Készítette: Simon Péter (ZE4F8M) és Tarr Róbert (RO30XN)</p>
+  </footer>
+  
+  <script src="js/tabla.js"></script>
+  
+</body>
+</html>
