@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>ChartJS</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    table td, table th {
+      padding: 6px 12px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    table tr:hover {
+      background-color: #f2f2f2;
+    }
+
+    canvas {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Web-programozás-1 Előadás Házi feladat</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Kezdőlap</a></li>
+      <li><a href="tabla.html">Táblázat</a></li>
+      <li><a href="html5.html">HTML5 API-k</a></li>
+      <li class="active"><a href="chart.html">ChartJS</a></li>
+      <li><a href="ajax.html">AJAX</a></li>
+      <li><a href="oojs.html">OOJS</a></li>
+    </ul>
+  </nav>
+
+  <aside>
+    <p>Ez itt az oldalsáv – akár hirdetés vagy extra infó is lehet.</p>
+  </aside>
+
+  <div id="content">
+    <h2>ChartJS példa</h2>
+    <p>Kattints egy sorra az alábbi táblázatban, hogy megjelenítse diagramon!</p>
+
+    <table border="1" id="dataTable">
+      <thead>
+        <tr>
+          <th>Érték 1</th>
+          <th>Érték 2</th>
+          <th>Érték 3</th>
+          <th>Érték 4</th>
+          <th>Érték 5</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>10</td><td>20</td><td>15</td><td>25</td><td>30</td></tr>
+        <tr><td>5</td><td>12</td><td>18</td><td>8</td><td>22</td></tr>
+        <tr><td>7</td><td>14</td><td>21</td><td>28</td><td>35</td></tr>
+        <tr><td>3</td><td>6</td><td>9</td><td>12</td><td>15</td></tr>
+        <tr><td>25</td><td>20</td><td>30</td><td>35</td><td>40</td></tr>
+      </tbody>
+    </table>
+
+    <canvas id="chartCanvas" width="400" height="200"></canvas>
+  </div>
+
+  <footer>
+    <p>Készítette: Simon Péter (ZE4F8M) és Tarr Róbert (RO30XN)</p>
+  </footer>
+
+  <script>
+    const ctx = document.getElementById('chartCanvas').getContext('2d');
+    let chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['1', '2', '3', '4', '5'],
+        datasets: [{
+          label: 'Kiválasztott sor',
+          data: [],
+          borderWidth: 2,
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    document.querySelectorAll('#dataTable tbody tr').forEach(row => {
+      row.addEventListener('click', () => {
+        const values = Array.from(row.children).map(td => parseFloat(td.textContent));
+        chart.data.datasets[0].data = values;
+        chart.update();
+      });
+    });
+  </script>
+</body>
+</html>

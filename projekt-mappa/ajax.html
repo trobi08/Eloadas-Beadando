@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>AJAX alkalmazás</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    form {
+      margin-bottom: 20px;
+    }
+
+    input {
+      margin: 4px;
+    }
+
+    button {
+      margin: 4px;
+    }
+
+    .section {
+      margin-top: 20px;
+    }
+
+    #responseMessage {
+      color: green;
+      font-weight: bold;
+    }
+
+    #errorMessage {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Web-programozás-1 Előadás Házi feladat</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Kezdőlap</a></li>
+      <li><a href="tabla.html">Táblázat</a></li>
+      <li><a href="html5.html">HTML5 API-k</a></li>
+      <li><a href="chart.html">ChartJS</a></li>
+      <li class="active"><a href="ajax.html">AJAX</a></li>
+      <li><a href="oojs.html">OOJS</a></li>
+    </ul>
+  </nav>
+
+  <aside>
+    <p>Ez itt az oldalsáv – akár hirdetés vagy extra infó is lehet.</p>
+  </aside>
+
+  <div id="content">
+    <h2>AJAX példa – API kommunikáció</h2>
+
+    <form id="dataForm">
+      <input type="hidden" id="id">
+      <input type="text" id="name" placeholder="Név" required>
+      <input type="text" id="height" placeholder="Magasság (szám)" required>
+      <input type="text" id="weight" placeholder="Súly (szám)" required>
+      <button type="button" onclick="createData()">Hozzáadás</button>
+      <button type="button" onclick="updateData()">Módosítás</button>
+    </form>
+
+    <div>
+      <input type="text" id="searchId" placeholder="ID lekéréshez">
+      <button type="button" onclick="getDataById()">Adatok betöltése ID alapján</button>
+    </div>
+
+    <div>
+      <input type="text" id="deleteId" placeholder="ID törléshez">
+      <button type="button" onclick="deleteData()">Törlés</button>
+    </div>
+
+    <div class="section">
+      <button onclick="loadData()">Összes adat betöltése</button>
+    </div>
+
+    <div id="responseMessage"></div>
+    <div id="errorMessage"></div>
+
+    <div class="section">
+      <h3>Adatok</h3>
+      <div id="dataList"></div>
+    </div>
+
+    <div class="section">
+      <h3>Statisztikák (height alapján)</h3>
+      <div id="stats"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Készítette: Simon Péter (ZE4F8M) és Tarr Róbert (RO30XN)</p>
+  </footer>
+
+  <script src="js/ajax.js"></script>
+</body>
+</html>
